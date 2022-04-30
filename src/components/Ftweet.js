@@ -23,7 +23,7 @@ const Ftweet = ({ ftweetObj, isOwner }) => {
         } = event;
         setNewFtweet(value);
     };
-
+    
     const onSubmit = async (event) => {
         event.preventDefault();
         await dbService.doc(`ftweets/${ftweetObj.id}`).update({ text: newFtweet });
