@@ -1,7 +1,8 @@
-import { dbService } from 'fbase';
+import { dbService, storageService } from 'fbase';
 import React from 'react'
 import { useEffect, useState } from "react";
 import Ftweet from "components/Ftweet";
+import { v4 as uuidv4} from "uuid";
 
 const Home = ({ userObj }) => {
     const [ftweet, setFtweet] = useState("");
@@ -34,12 +35,20 @@ const Home = ({ userObj }) => {
 
     const onSubmit = async (event) => {
         event.preventDefault();
+        let attachmentUrl=""
+        if (attachmentUrl !== ""){
+        const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+        const response = await attachmentRef.putString(attachment, "data_url");
+        attachmentUrl = await response.ref.getDownloadURL();
+    }
         await dbService.collection("ftweets").add({
             text: ftweet,
             createdAt: Date.now(),
-            creatorId: userObj.uid
+            creatorId: userObj.uid,
+            attachmentUrl
         });
         setFtweet("");
+        setAttachment("");
     };
 
     const onChange = (event) => {
@@ -77,12 +86,15 @@ const Home = ({ userObj }) => {
                     placeholder="What's on your mind?"
                     maxLength={120}
                 />
-                <input type="file" accept="image/*" />
+                <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit" value="Ftweet" />
-                <div>
-                    {attachment && <img src={attachment} width="50px" height="50px" />}
-                    <button onClick={onClearAttachment}>Clear</button>
-                </div>
+                { attachment && (
+                    <div>
+                        <img src={attachment} width="50px" height="50px" alt="" />
+                        <button onClick={onClearAttachment}>Clear</button>
+                    </div>
+                )}
+                
             </form>
             <div>
                 {ftweets.map((ftweet) => (

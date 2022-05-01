@@ -1,4 +1,4 @@
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { useState } from "react";
 
 const Ftweet = ({ ftweetObj, isOwner }) => {
@@ -7,11 +7,11 @@ const Ftweet = ({ ftweetObj, isOwner }) => {
 
     const onDeleteClick = async () => {
         const ok = window.confirm("Do you really delete it?");
-        console.log(ok);
         if (ok) {
-            console.log(ftweetObj.id);
-            const data = await dbService.doc(`ftweets/${ftweetObj.id}`).delete();
-            console.log(data)
+            await dbService.doc(`ftweets/${ftweetObj.id}`).delete();
+            if (ftweetObj.attachmentUrl !== ""){
+                await storageService.refFromURL(ftweetObj.attachmentUrl).delete();
+            }
         }
     };
 
@@ -43,6 +43,9 @@ const Ftweet = ({ ftweetObj, isOwner }) => {
             ):(
                 <>
                     <h4>{ftweetObj.text}</h4>
+                    {ftweetObj.attachmentUrl && (
+                        <img src={ftweetObj.attachmentUrl} width = "50px" height = "50px" alt="" />
+                    )}
                     {isOwner && (
                 <>
                     <button onClick={onDeleteClick}>Delete Ftweet</button>
