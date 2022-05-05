@@ -20,7 +20,10 @@ const Home = ({ userObj }) => {
 
     useEffect(() => {
       //  getFtweets();
-      dbService.collection("ftweets").onSnapshot((snapshot) => {
+      dbService
+        .collection("ftweets")
+        .orderBy("created At", "desc")
+        .onSnapshot((snapshot) => {
           const newArray = snapshot.docs.map((document) => ({
               id:document.id,
               ...document.data(),
@@ -30,9 +33,18 @@ const Home = ({ userObj }) => {
     }, []);
 
     return (
-        <>
+        <div className="container">
              <FtweetFactory userObj={userObj}/>
-        </>
+             <div style={{ marginTop: 30 }}>
+                 {ftweets.map((ftweet) => (
+                     <Ftweet
+                        key={ ftweet.id }
+                        ftweetObj={ ftweet }
+                        isOwner={ ftweet.creatorId === userObj.uid}
+                    />
+                 ))}
+                 </div>
+             </div>
     );
 };
 

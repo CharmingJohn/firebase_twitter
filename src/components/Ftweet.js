@@ -1,5 +1,7 @@
 import { dbService, storageService } from "fbase";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Ftweet = ({ ftweetObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -31,11 +33,18 @@ const Ftweet = ({ ftweetObj, isOwner }) => {
     }
 
     return (
-        <div>
+        <div className="ftweet">
             {editing ?(
                 <>
-                    <form onSubmit={onSubmit}>
-                        <input onChange={onChange} value = {newFtweet} required />
+                    <form onSubmit={onSubmit} className="container ftweetEdit">
+                        <input 
+                            onChange={onChange} 
+                            value = {newFtweet} 
+                            required 
+                            placeholder="Eidt your ftweet"
+                            autoFocus
+                            className="formInput"
+                        />
                         <input type="submit" value="Update Ftweet" />
                     </form>
                     <button onClick={toggleEditing}>Cancel</button>
@@ -47,10 +56,14 @@ const Ftweet = ({ ftweetObj, isOwner }) => {
                         <img src={ftweetObj.attachmentUrl} width = "50px" height = "50px" alt="" />
                     )}
                     {isOwner && (
-                <>
-                    <button onClick={onDeleteClick}>Delete Ftweet</button>
-                    <button onClick={toggleEditing}>Edit Ftweet</button>
-                </>
+                <div className="ftweet__actions">
+                    <span onClick={onDeleteClick}>
+                        <FontAwesomeIcon icon={faTrash} />
+                    </span>
+                    <span onClick={toggleEditing}>
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                    </span>
+                </div>
                 )}
             </>
             )}

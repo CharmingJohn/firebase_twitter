@@ -7,7 +7,7 @@ const Profile = ( { userObj, refreshUser } ) => {
     const navigate = useNavigate();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
 
-    const onLogOutClik = () =>{
+    const onLogOutClick = () =>{
         authService.signOut();
         navigate("/");
     };
@@ -40,17 +40,28 @@ const Profile = ( { userObj, refreshUser } ) => {
         }
     }
     return (
-    <>
-        <form onSubmit={onSubmit}>
+    <div className="container">
+        <form onSubmit={onSubmit} className="profileForm">
             <input 
                 onChange = {onChange}
                 type="text" 
                 placeholder="Display name" 
-                value={newDisplayName}/>
-            <input type="submit" placeholder="Update Profile" />
+                value={newDisplayName}
+                autoFocus
+                className="formInput"/>
+            <input 
+                type="submit"
+                value="Update Profile"
+                className="formBtn"
+                style={{
+                    marginTop: 10,
+                }}
+                placeholder="Update Profile"/>
         </form>
-        <button onClick={onLogOutClik}>Log Out</button>
-    </>
+        <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
+            Log Out
+        </span>
+    </div>
     );
 }
 
