@@ -1,4 +1,4 @@
-import { authService, firebaseInstance } from "fbase";
+import { authService } from "fbase";
 import { useState } from "react";
 
 const AuthForm = () => {

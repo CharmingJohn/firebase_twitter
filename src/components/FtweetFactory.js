@@ -68,7 +68,7 @@ const FtweetFactory = ({userObj}) => {
                 onChange={onChange}
                 type="text"
                 placeholder="What's on your mind?"
-                maxlength={120}
+                maxLength={120}
             />
             <input type="file" value="&rarr;" className="factoryInput__arrow" />
             </div>
