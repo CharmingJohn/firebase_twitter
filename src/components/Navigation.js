@@ -23,7 +23,7 @@ const Navigation = ({userObj}) => {
                         <FontAwesomeIcon icon={faUser} color={"#04AAFF"} size="2x" />
                         <span style={{ marginTop: 10 }}>
                             {userObj.displayName
-                            ? `${userObj.displayName}\'s Profile` : "Profile"}
+                            ? `${userObj.displayName}'s Profile` : "Profile"}
                         </span>
                     </Link>
                 </li>

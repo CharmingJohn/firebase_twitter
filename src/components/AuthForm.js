@@ -35,20 +35,8 @@ const AuthForm = () => {
 
     const toggleAccount = () => setNewaccount((prev) => !prev);
 
-    const onSocialClick = async (event) => {
-        const {
-            target: { name },
-        } = event;
-        let provider;
-        if (name === "google") {
-            provider = new firebaseInstance.auth.GoogleAuthProvider();
-        }
-        const data = await authService.signInWithPopup(provider);
-        console.log(data)
-    };
     return (
         <>
-        <div>
             <form onSubmit={onSubmit} className="container">
                 <input
                     name="email"
@@ -77,7 +65,6 @@ const AuthForm = () => {
             </form>
             <span onClick={toggleAccount} className="authSwitch">
                 {newAccount ? "Sign In" : "Create Account"}</span>
-            </div>
             </>
     );
 };
